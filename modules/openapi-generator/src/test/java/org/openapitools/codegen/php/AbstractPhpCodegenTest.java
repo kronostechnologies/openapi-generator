@@ -34,6 +34,7 @@ import org.testng.annotations.Test;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AbstractPhpCodegenTest {
 
@@ -165,6 +166,24 @@ public class AbstractPhpCodegenTest {
         // Assert the enum default value is properly generated
         CodegenProperty cp1 = cm1.vars.get(0);
         Assert.assertEquals(cp1.getDefaultValue(), "'VALUE'");
+    }
+
+    @Test
+    public void testNullableObjectProperty() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_10593.yaml");
+        final AbstractPhpCodegen codegen = new P_AbstractPhpCodegen();
+
+        codegen.preprocessOpenAPI(openAPI);
+
+        Schema test1 = openAPI.getComponents().getSchemas().get("ModelWithNullableObjectProperty");
+        CodegenModel cm1 = codegen.fromModel("ModelWithNullableObjectProperty", test1);
+
+
+        // codegen.processm()
+        Map<String, Object> models = Collections.singletonMap("models", Collections.singletonList(Collections.singletonMap("model", cm1)));
+        codegen.postProcessAllModels(models);
+        // We need to postProcess the model for enums to be processed
+        codegen.postProcessModels(models);
     }
 
     private static class P_AbstractPhpCodegen extends AbstractPhpCodegen {

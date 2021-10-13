@@ -57,6 +57,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
+<li>null</li>
 <li>number</li>
 <li>string</li>
 </ul>

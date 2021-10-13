@@ -33,6 +33,7 @@ export interface Tag {
     name?: string;
 }
 
+
 export function TagFromJSON(json: any): Tag {
     return TagFromJSONTyped(json, false);
 }

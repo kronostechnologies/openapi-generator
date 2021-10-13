@@ -143,7 +143,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 "any",
                 "File",
                 "Error",
-                "Map"
+                "Map",
+                "null"
         ));
 
         languageGenericTypes = new HashSet<String>(Arrays.asList(
@@ -178,6 +179,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("UUID", "string");
         typeMapping.put("Error", "Error");
         typeMapping.put("AnyType", "any");
+        typeMapping.put("null", "null");
 
 
         cliOptions.add(new CliOption(NPM_NAME, "The name under which you want to publish generated npm package." +
@@ -1526,7 +1528,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
-
+        // Null is already handled by the isNullable flag
+        types.removeIf(p -> p.equals("null"));
         return String.join(" | ", types);
     }
 

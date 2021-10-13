@@ -78,6 +78,7 @@ export enum PetStatusEnum {
     Sold = 'sold'
 }
 
+
 export function PetFromJSON(json: any): Pet {
     return PetFromJSONTyped(json, false);
 }

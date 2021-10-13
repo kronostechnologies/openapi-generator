@@ -69,6 +69,7 @@ export interface User {
     userStatus?: number;
 }
 
+
 export function UserFromJSON(json: any): User {
     return UserFromJSONTyped(json, false);
 }

@@ -2102,6 +2102,12 @@ public class DefaultCodegen implements CodegenConfig {
         if (exts != null && exts.containsKey("x-one-of-name")) {
             return (String) exts.get("x-one-of-name");
         }
+        if (Boolean.TRUE.equals(composedSchema.getNullable()) || ModelUtils.isNullableComposedSchema(composedSchema)) {
+            String singleType = names.stream().filter(p -> !p.equals("null")).findFirst().orElse(null);
+            if(singleType != null) {
+                return singleType;
+            }
+        }
         return "oneOf<" + String.join(",", names) + ">";
     }
 
@@ -6293,7 +6299,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
             codegenParameter.enumName = codegenProperty.enumName;
         }
-        
+
         // import
         if (codegenProperty.complexType != null) {
             imports.add(codegenProperty.complexType);

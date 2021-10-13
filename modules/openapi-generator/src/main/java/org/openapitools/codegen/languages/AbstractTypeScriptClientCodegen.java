@@ -135,7 +135,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "Error",
                 "Map",
                 "object",
-                "Set"
+                "Set",
+                "null"
         ));
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
@@ -172,6 +173,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         typeMapping.put("URI", "string");
         typeMapping.put("Error", "Error");
         typeMapping.put("AnyType", "any");
+        typeMapping.put("null", "null");
 
         cliOptions.add(new CliOption(CodegenConstants.ENUM_NAME_SUFFIX, CodegenConstants.ENUM_NAME_SUFFIX_DESC).defaultValue(this.enumSuffix));
         cliOptions.add(new CliOption(CodegenConstants.ENUM_PROPERTY_NAMING, CodegenConstants.ENUM_PROPERTY_NAMING_DESC).defaultValue(this.enumPropertyNaming.name()));
@@ -924,7 +926,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
         List<String> types = getTypesFromSchemas(composedSchema.getOneOf());
-
+        // Null is already handled by the isNullable flag
+        types.removeIf(p -> p.equals("null"));
         return String.join(" | ", types);
     }
 
