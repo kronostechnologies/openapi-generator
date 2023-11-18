@@ -61,7 +61,11 @@ import com.squareup.moshi.adapter
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val EMPTY_REQUEST: RequestBody = ByteArray(0).toRequestBody()
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient({{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val baseUrl: String, {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val client: Call.Factory = defaultClient) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}open class ApiClient(
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val baseUrl: String,
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}accessToken: String? = null,
+    {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val client: Call.Factory = defaultClient
+) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}{{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}companion object {
         protected const val ContentType: String = "Content-Type"
         protected const val Accept: String = "Accept"
@@ -87,6 +91,17 @@ import com.squareup.moshi.adapter
 
         @JvmStatic
         {{^nonPublicApi}}{{#explicitApi}}public {{/explicitApi}}{{/nonPublicApi}}val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+    }
+
+    private var internalAccessToken: String? = null
+    var accessToken: String?
+        get() = internalAccessToken ?: Companion.accessToken
+        set(value) {
+            internalAccessToken = value
+        }
+
+    init {
+        internalAccessToken = accessToken
     }
 
     /**
