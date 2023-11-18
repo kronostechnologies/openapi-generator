@@ -1,2 +1,8 @@
 {{#multiplatform}}enableFeaturePreview('GRADLE_METADATA'){{/multiplatform}}
 rootProject.name = '{{artifactId}}'
+
+files(
+    "local.settings.gradle",
+    "local.settings.gradle.kts",
+).filter({ it.exists() } as Spec)
+    .forEach({ apply from: it })

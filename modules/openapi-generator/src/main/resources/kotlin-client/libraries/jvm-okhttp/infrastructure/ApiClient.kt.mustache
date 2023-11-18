@@ -77,7 +77,11 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.squareup.moshi.adapter
 {{/moshi}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(val baseUrl: String, val client: OkHttpClient = defaultClient) {
+{{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClient(
+    val baseUrl: String,
+    accessToken: String? = null,
+    val client: OkHttpClient = defaultClient
+) {
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         protected const val ContentType = "Content-Type"
         protected const val Accept = "Accept"
@@ -102,6 +106,17 @@ import com.squareup.moshi.adapter
 
         @JvmStatic
         val builder: OkHttpClient.Builder = OkHttpClient.Builder()
+    }
+
+    private var internalAccessToken: String? = null
+    var accessToken: String?
+        get() = internalAccessToken ?: Companion.accessToken
+        set(value) {
+            internalAccessToken = value
+        }
+
+    init {
+        internalAccessToken = accessToken
     }
 
     /**
