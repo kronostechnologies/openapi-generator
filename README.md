@@ -1,5 +1,6 @@
-<h1 align="center">OpenAPI Generator</h1>
+Equisoft Fork see: [README.Equisoft.md](README.Equisoft.md)
 
+<h1 align="center">OpenAPI Generator</h1>
 
 <div align="center">
 
