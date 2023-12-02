@@ -4,9 +4,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>openapi-generator-project</artifactId>
-    <groupId>org.openapitools</groupId>
+    <groupId>com.equisoft.openapitools</groupId>
     <!-- RELEASE_VERSION -->
-    <version>7.1.0</version>
+    <version>7.1.0-equisoft-SNAPSHOT</version>
     <!-- /RELEASE_VERSION -->
     <relativePath>../..</relativePath>
   </parent>
