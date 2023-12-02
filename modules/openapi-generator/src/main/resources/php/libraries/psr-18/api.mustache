@@ -593,10 +593,14 @@ use function sprintf;
             $formParams['{{baseName}}'] = [];
             $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
             foreach ($paramFiles as $paramFile) {
-                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
-                    ObjectSerializer::toFormValue($paramFile),
-                    'rb'
-                );
+                if ($paramFile instanceof StreamInterface) {
+                    $formParams['{{baseName}}'][] = $paramFile;
+                } else {
+                    $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
+                        ObjectSerializer::toFormValue($paramFile),
+                        'rb'
+                    );
+                }
             }
             {{/isFile}}
             {{^isFile}}
