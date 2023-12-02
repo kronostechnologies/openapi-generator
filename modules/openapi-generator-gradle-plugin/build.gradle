@@ -12,7 +12,7 @@ plugins {
     id("signing")
 }
 
-group = "org.openapitools"
+group = "com.equisoft.openapitools"
 version = "$openApiGeneratorVersion"
 ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
 
@@ -34,13 +34,17 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
+        name = "equisoft-openapi-generators"
+        url = uri("https://maven.pkg.github.com/kronostechnologies/openapi-generators")
+    }
+    maven {
         name = "Sonatype Snapshots"
         url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
 
 dependencies {
-    implementation("org.openapitools:openapi-generator:$openApiGeneratorVersion")
+    implementation("com.equisoft.openapitools:openapi-generator:$openApiGeneratorVersion")
     testImplementation("org.jetbrains.kotlin:kotlin-test-testng:1.7.10")
 }
 
