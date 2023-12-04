@@ -1265,6 +1265,9 @@ public class OpenAPINormalizer {
                     anyType.setDeprecated(schema.getDeprecated());
                     return anyType;
                 }
+            } else if(Boolean.TRUE.equals(schema.getNullable()) && oneOfSchemas.size() == 1) {
+                ((Schema) oneOfSchemas.get(0)).setNullable(true);
+                return (Schema) oneOfSchemas.get(0);
             }
 
             schema = simplyOneOfAnyOfWithOnlyOneNonNullSubSchema(openAPI, schema, oneOfSchemas);
