@@ -7,7 +7,14 @@
 
 ## Bump version
 
-Edit pom.xml at the root and in all modules directories. Look for "equisoft"
+Edit pom.xml at the root and in all modules directories. This can be done with :
+
+```
+./mvnw versions:set -DnewVersion=7.1.0-equisoft1
+```
+
+Edit the version for the gradle plugin in [gradle.properties](modules/openapi-generator-gradle-plugin/gradle.properties)
+
 
 ## Run against sample
 
