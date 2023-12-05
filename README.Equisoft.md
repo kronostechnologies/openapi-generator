@@ -11,9 +11,12 @@ Edit pom.xml at the root and in all modules directories. This can be done with :
 
 ```
 ./mvnw versions:set -DnewVersion=7.1.0-equisoft1
+./mvnw versions:commit
 ```
 
 Edit the version for the gradle plugin in [gradle.properties](modules/openapi-generator-gradle-plugin/gradle.properties)
+
+New development can be tested with `SNAPSHOT` version. Ex: `7.1.0-equisoft2-SNAPSHOT`
 
 
 ## Run against sample
