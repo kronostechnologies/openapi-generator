@@ -44,9 +44,14 @@ Configure your github credentials in ~/.m2/settings.xml with a github personal a
 </settings>
 ```
 
-Deploy
+Deploy the maven part
 
 ```
 ./mvnw deploy -P equisoft-openapi-generator
 ```
 
+Deploy the gradle plugin
+
+```
+cd modules/openapi-generator-gradle-plugin && ./gradlew publish
+```
