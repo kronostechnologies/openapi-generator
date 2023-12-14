@@ -1,1 +1,10 @@
 rootProject.name = "{{artifactId}}"
+
+java.io.File localSettings = file("local.settings.gradle.kts")
+if (localSettings.exists()) {
+    apply from: localSettings
+}
+localSettings = file("local.settings.gradle")
+if (localSettings.exists()) {
+    apply from: localSettings
+}
