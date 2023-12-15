@@ -109,7 +109,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         micronautVersion = "3.4.3";
         isMicronaut4OrGreater = false;
         micronautValidationGroupId = "io.micronaut";
-        micronautPluginVersion = "3.5.8";
+        micronautPluginVersion = "3.7.10";
         reactive = true;
         wrapInHttpResponse = false;
         appName = artifactId;
