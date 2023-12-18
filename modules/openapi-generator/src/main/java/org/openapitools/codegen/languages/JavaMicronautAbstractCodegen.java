@@ -227,26 +227,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             additionalProperties.put(OPT_MICRONAUT_VERSION, micronautVersion);
         }
 
-        isMicronaut4OrGreater = (new SemVer(micronautVersion)).atLeast("4.0.0");
-        additionalProperties.put(OPT_IS_MICRONAUT4_OR_GREATER, isMicronaut4OrGreater);
-
-        if (additionalProperties.containsKey(OPT_MICRONAUT_VALIDATION_GROUP_ID)) {
-            micronautValidationGroupId = (String) additionalProperties.get(OPT_MICRONAUT_VALIDATION_GROUP_ID);
-        } else {
-            if(isMicronaut4OrGreater) {
-                micronautValidationGroupId = "io.micronaut.validation";
-            }
-            additionalProperties.put(OPT_MICRONAUT_VALIDATION_GROUP_ID, micronautValidationGroupId);
-        }
-
-        if (additionalProperties.containsKey(OPT_MICRONAUT_PLUGIN_VERSION)) {
-            micronautPluginVersion = (String) additionalProperties.get(OPT_MICRONAUT_PLUGIN_VERSION);
-        } else {
-            if(isMicronaut4OrGreater) {
-                micronautPluginVersion = "4.2.1";
-            }
-            additionalProperties.put(OPT_MICRONAUT_PLUGIN_VERSION, micronautPluginVersion);
-        }
+        processEquisoftOpts();
 
         if (additionalProperties.containsKey(OPT_APPLICATION_NAME)) {
             appName = (String) additionalProperties.get(OPT_APPLICATION_NAME);
@@ -422,6 +403,29 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         additionalProperties.put("resourceFolder", resourceFolder);
         additionalProperties.put("apiFolder", apiFolder);
         additionalProperties.put("modelFolder", modelFolder);
+    }
+
+    private void processEquisoftOpts() {
+        isMicronaut4OrGreater = (new SemVer(micronautVersion)).atLeast("4.0.0");
+        additionalProperties.put(OPT_IS_MICRONAUT4_OR_GREATER, isMicronaut4OrGreater);
+
+        if (additionalProperties.containsKey(OPT_MICRONAUT_VALIDATION_GROUP_ID)) {
+            micronautValidationGroupId = (String) additionalProperties.get(OPT_MICRONAUT_VALIDATION_GROUP_ID);
+        } else {
+            if(isMicronaut4OrGreater) {
+                micronautValidationGroupId = "io.micronaut.validation";
+            }
+            additionalProperties.put(OPT_MICRONAUT_VALIDATION_GROUP_ID, micronautValidationGroupId);
+        }
+
+        if (additionalProperties.containsKey(OPT_MICRONAUT_PLUGIN_VERSION)) {
+            micronautPluginVersion = (String) additionalProperties.get(OPT_MICRONAUT_PLUGIN_VERSION);
+        } else {
+            if(isMicronaut4OrGreater) {
+                micronautPluginVersion = "4.2.1";
+            }
+            additionalProperties.put(OPT_MICRONAUT_PLUGIN_VERSION, micronautPluginVersion);
+        }
     }
 
     @Override

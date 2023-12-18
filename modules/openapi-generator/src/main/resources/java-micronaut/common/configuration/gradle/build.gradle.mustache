@@ -2,11 +2,11 @@ plugins {
     {{#isTestSpock}}
     id("groovy")
     {{/isTestSpock}}
-    id("com.github.johnrengelman.shadow") version "8.1.1"
     {{#client}}
     id("io.micronaut.library") version "{{micronautPluginVersion}}"
     {{/client}}
     {{^client}}
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "{{micronautPluginVersion}}"
     {{/client}}
 }
@@ -28,7 +28,9 @@ repositories {
 }
 
 micronaut {
+    {{^client}}
     runtime("netty")
+    {{/client}}
     {{#isTestSpock}}
     testRuntime("spock2")
     {{/isTestSpock}}
