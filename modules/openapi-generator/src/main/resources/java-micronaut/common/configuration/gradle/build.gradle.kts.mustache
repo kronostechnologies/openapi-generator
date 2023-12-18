@@ -1,3 +1,18 @@
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+{{^client}}
+import io.micronaut.gradle.MicronautRuntime.NETTY
+{{/client}}
+{{#isTestSpock}}
+import io.micronaut.gradle.MicronautTestRuntime.SPOCK_2
+{{/isTestSpock}}
+{{#isTestJunit}}
+import io.micronaut.gradle.MicronautTestRuntime.JUNIT_5
+{{/isTestJunit}}
+
+version = project.findProperty("application.version")?.toString() ?: "{{artifactVersion}}"
+group = "{{invokerPackage}}"
+
 plugins {
     {{#isTestSpock}}
     id("groovy")
@@ -9,18 +24,9 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("io.micronaut.application") version "{{micronautPluginVersion}}"
     {{/client}}
-}
-
-version = "{{artifactVersion}}"
-group = "{{invokerPackage}}"
-
-java.io.File localBuild = file("local.build.gradle")
-if (localBuild.exists()) {
-    apply from: localBuild
-}
-localBuild = file("local.build.gradle.kts")
-if (localBuild.exists()) {
-    apply from: localBuild
+    {{#gitProjectName}}
+    `maven-publish`
+    {{/gitProjectName}}
 }
 
 repositories {
@@ -29,16 +35,16 @@ repositories {
 
 micronaut {
     {{^client}}
-    runtime("netty")
+    runtime.set("netty")
     {{/client}}
     {{#isTestSpock}}
-    testRuntime("spock2")
+    testRuntime.set(SPOCK_2)
     {{/isTestSpock}}
     {{#isTestJunit}}
-    testRuntime("junit5")
+    testRuntime.set(JUNIT_5)
     {{/isTestJunit}}
     processing {
-        incremental(true)
+        incremental.set(true)
         annotations("{{invokerPackage}}.*")
     }
 }
@@ -96,3 +102,36 @@ java {
 }
 
 graalvmNative.toolchainDetection = false
+
+tasks {
+    wrapper {
+        distributionType = Wrapper.DistributionType.ALL
+        gradleVersion = "8.5"
+    }
+}
+
+{{#gitProjectName}}
+configure<PublishingExtension> {
+    repositories {
+        maven {
+            name = "{{gitProjectName}}"
+            url = uri("{{packageUrl}}")
+            credentials {
+                name = "gprWrite"
+                username = project.findProperty("gpr.user")?.toString()
+                    ?: System.getenv("GPR_USER")
+                    ?: System.getenv("GHCR_USER")
+                password = project.findProperty("gpr.key")?.toString()
+                    ?: System.getenv("GPR_TOKEN")
+                    ?: System.getenv("GHCR_TOKEN")
+            }
+        }
+    }
+
+    publications {
+        create<MavenPublication>("gpr") {
+            from(components["java"])
+        }
+    }
+}
+{{/gitProjectName}}

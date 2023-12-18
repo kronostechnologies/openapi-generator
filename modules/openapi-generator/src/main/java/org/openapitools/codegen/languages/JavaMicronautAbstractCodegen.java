@@ -337,8 +337,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
         if (buildTool.equals(OPT_BUILD_GRADLE) || buildTool.equals(OPT_BUILD_ALL)) {
             // Gradle files
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("common/configuration/gradle/build.gradle.kts.mustache", "", "build.gradle.kts").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("common/configuration/gradle/settings.gradle.kts.mustache", "", "settings.gradle.kts").doNotOverwrite());
             supportingFiles.add(new SupportingFile("common/configuration/gradle/gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
 
             // Gradlew files
