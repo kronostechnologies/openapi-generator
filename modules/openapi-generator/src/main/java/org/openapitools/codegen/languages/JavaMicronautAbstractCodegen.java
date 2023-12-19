@@ -15,6 +15,7 @@ import org.openapitools.codegen.model.ModelMap;
 import org.openapitools.codegen.model.ModelsMap;
 import org.openapitools.codegen.model.OperationMap;
 import org.openapitools.codegen.model.OperationsMap;
+import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,6 @@ import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.CodegenConstants.INVOKER_PACKAGE;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen implements BeanValidationFeatures, OptionalFeatures {
     public static final String OPT_TITLE = "title";
@@ -38,6 +38,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_TEST_SPOCK = "spock";
     public static final String OPT_REQUIRED_PROPERTIES_IN_CONSTRUCTOR = "requiredPropertiesInConstructor";
     public static final String OPT_MICRONAUT_VERSION = "micronautVersion";
+    public static final String OPT_IS_MICRONAUT4_OR_GREATER = "isMicronaut4OrGreater";
+    public static final String OPT_MICRONAUT_VALIDATION_GROUP_ID = "micronautValidationGroupId";
+    public static final String OPT_MICRONAUT_PLUGIN_VERSION = "micronautPluginVersion";
     public static final String OPT_USE_AUTH = "useAuth";
     public static final String OPT_VISITABLE = "visitable";
     public static final String OPT_DATE_LIBRARY_JAVA8 = "java8";
@@ -65,6 +68,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     protected String testTool;
     protected boolean requiredPropertiesInConstructor = true;
     protected String micronautVersion;
+    protected boolean isMicronaut4OrGreater;
+    protected String micronautValidationGroupId;
+    protected String micronautPluginVersion;
     protected boolean reactive;
     protected boolean wrapInHttpResponse;
     protected String appName;
@@ -101,6 +107,9 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         modelDocPath = "docs/models";
         dateLibrary = OPT_DATE_LIBRARY_JAVA8;
         micronautVersion = "3.4.3";
+        isMicronaut4OrGreater = false;
+        micronautValidationGroupId = "io.micronaut";
+        micronautPluginVersion = "3.7.10";
         reactive = true;
         wrapInHttpResponse = false;
         appName = artifactId;
@@ -218,6 +227,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             additionalProperties.put(OPT_MICRONAUT_VERSION, micronautVersion);
         }
 
+        processEquisoftOpts();
+
         if (additionalProperties.containsKey(OPT_APPLICATION_NAME)) {
             appName = (String) additionalProperties.get(OPT_APPLICATION_NAME);
         } else {
@@ -326,8 +337,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
 
         if (buildTool.equals(OPT_BUILD_GRADLE) || buildTool.equals(OPT_BUILD_ALL)) {
             // Gradle files
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/build.gradle.mustache", "", "build.gradle").doNotOverwrite());
-            supportingFiles.add(new SupportingFile("common/configuration/gradle/settings.gradle.mustache", "", "settings.gradle").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("common/configuration/gradle/build.gradle.kts.mustache", "", "build.gradle.kts").doNotOverwrite());
+            supportingFiles.add(new SupportingFile("common/configuration/gradle/settings.gradle.kts.mustache", "", "settings.gradle.kts").doNotOverwrite());
             supportingFiles.add(new SupportingFile("common/configuration/gradle/gradle.properties.mustache", "", "gradle.properties").doNotOverwrite());
 
             // Gradlew files
@@ -392,6 +403,29 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
         additionalProperties.put("resourceFolder", resourceFolder);
         additionalProperties.put("apiFolder", apiFolder);
         additionalProperties.put("modelFolder", modelFolder);
+    }
+
+    private void processEquisoftOpts() {
+        isMicronaut4OrGreater = (new SemVer(micronautVersion)).atLeast("4.0.0");
+        additionalProperties.put(OPT_IS_MICRONAUT4_OR_GREATER, isMicronaut4OrGreater);
+
+        if (additionalProperties.containsKey(OPT_MICRONAUT_VALIDATION_GROUP_ID)) {
+            micronautValidationGroupId = (String) additionalProperties.get(OPT_MICRONAUT_VALIDATION_GROUP_ID);
+        } else {
+            if(isMicronaut4OrGreater) {
+                micronautValidationGroupId = "io.micronaut.validation";
+            }
+            additionalProperties.put(OPT_MICRONAUT_VALIDATION_GROUP_ID, micronautValidationGroupId);
+        }
+
+        if (additionalProperties.containsKey(OPT_MICRONAUT_PLUGIN_VERSION)) {
+            micronautPluginVersion = (String) additionalProperties.get(OPT_MICRONAUT_PLUGIN_VERSION);
+        } else {
+            if(isMicronaut4OrGreater) {
+                micronautPluginVersion = "4.2.1";
+            }
+            additionalProperties.put(OPT_MICRONAUT_PLUGIN_VERSION, micronautPluginVersion);
+        }
     }
 
     @Override
