@@ -5,7 +5,6 @@ plugins {
     id("maven-publish")
     id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
     id("org.jetbrains.kotlin.jvm") version "1.9.0"
-    id("signing")
 }
 
 group = "com.equisoft.openapitools"
@@ -83,7 +82,7 @@ gradlePlugin {
     group = "com.equisoft.openapitools"
     plugins {
         openApiGenerator {
-            id = "org.openapi.generator"
+            id = "com.equisoft.openapi.generator"
             description = "OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)."
             displayName = "OpenAPI Generator Gradle Plugin"
             implementationClass = "org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin"

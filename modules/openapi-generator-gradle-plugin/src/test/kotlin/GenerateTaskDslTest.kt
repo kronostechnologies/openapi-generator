@@ -16,7 +16,7 @@ class GenerateTaskDslTest : TestBase() {
 
     private val defaultBuildGradle = """
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -37,7 +37,7 @@ class GenerateTaskDslTest : TestBase() {
         // Arrange
         val buildContents = """
          plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -100,7 +100,7 @@ class GenerateTaskDslTest : TestBase() {
         // Arrange
         val buildContents = """
          plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -241,7 +241,7 @@ class GenerateTaskDslTest : TestBase() {
         withProject(
             """
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -292,7 +292,7 @@ class GenerateTaskDslTest : TestBase() {
         )
         withProject("""
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "java"
@@ -428,7 +428,7 @@ class GenerateTaskDslTest : TestBase() {
 
         withProject("""
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -466,7 +466,7 @@ class GenerateTaskDslTest : TestBase() {
 
         withProject("""
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -503,7 +503,7 @@ class GenerateTaskDslTest : TestBase() {
 
         withProject("""
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"
@@ -539,7 +539,7 @@ class GenerateTaskDslTest : TestBase() {
         withProject(
             """
         plugins {
-          id 'org.openapi.generator'
+          id 'com.equisoft.openapi.generator'
         }
         openApiGenerate {
             generatorName = "kotlin"

@@ -37,7 +37,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiValidate {
@@ -82,7 +82,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiValidate {
@@ -118,7 +118,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiValidate {
@@ -158,7 +158,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiValidate {
@@ -199,7 +199,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
@@ -235,7 +235,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask) {
@@ -277,7 +277,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiValidate {
@@ -318,7 +318,7 @@ class ValidateTaskDslTest : TestBase() {
         withProject(
             """
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiValidate {

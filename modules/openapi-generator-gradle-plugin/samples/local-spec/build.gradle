@@ -18,7 +18,7 @@ buildscript {
     }
 }
 
-apply plugin: 'org.openapi.generator'
+apply plugin: 'com.equisoft.openapi.generator'
 
 openApiMeta {
     generatorName = "Sample"
