@@ -82,7 +82,7 @@ gradlePlugin {
     group = "com.equisoft.openapitools"
     plugins {
         openApiGenerator {
-            id = "com.equisoft.openapitools"
+            id = "org.openapi.generator"
             description = "OpenAPI Generator allows generation of API client libraries (SDK generation), server stubs, documentation and configuration automatically given an OpenAPI Spec (v2, v3)."
             displayName = "OpenAPI Generator Gradle Plugin"
             implementationClass = "org.openapitools.generator.gradle.plugin.OpenApiGeneratorPlugin"
