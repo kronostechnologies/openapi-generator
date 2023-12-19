@@ -16,7 +16,7 @@ class MetaTaskDslTest : TestBase() {
         val buildDirReplacement = "\$buildDir/meta"
         withProject("""
             | plugins {
-            |   id 'org.openapi.generator'
+            |   id 'com.equisoft.openapi.generator'
             | }
             |
             | openApiMeta {
