@@ -133,7 +133,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
 
         // Files are not generated
         assertFileExists(outputPath + "/pom.xml");
-        assertFileNotExists(outputPath + "/build.gradle");
+        assertFileNotExists(outputPath + "/build.gradle.kts");
     }
 
     @Test
@@ -145,7 +145,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
                 CodegenConstants.SUPPORTING_FILES);
 
         // Files are not generated
-        assertFileExists(outputPath + "/build.gradle");
+        assertFileExists(outputPath + "/build.gradle.kts");
         assertFileNotExists(outputPath + "/pom.xml");
     }
 
@@ -161,9 +161,9 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
                 CodegenConstants.API_TESTS, CodegenConstants.APIS, CodegenConstants.MODELS);
 
         // Files are not generated
-        assertFileContains(outputPath + "build.gradle", "testRuntime(\"junit");
+        assertFileContains(outputPath + "build.gradle.kts", "testRuntime.set(JUNIT_5");
         assertFileContains(outputPath + "pom.xml", "<artifactId>micronaut-test-junit");
-        assertFileNotContains(outputPath + "build.gradle", "testRuntime(\"spock");
+        assertFileNotContains(outputPath + "build.gradle.kts", "testRuntime.set(SPOCK");
         assertFileNotContains(outputPath + "pom.xml", "<artifactId>micronaut-test-spock");
         assertFileExists(outputPath + "src/test/java/");
         assertFileExists(outputPath + "src/test/java/org/openapitools/api/PetApiTest.java");
@@ -182,9 +182,9 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
                 CodegenConstants.API_TESTS, CodegenConstants.APIS, CodegenConstants.MODELS);
 
         // Files are not generated
-        assertFileNotContains(outputPath + "build.gradle", "testRuntime(\"junit");
+        assertFileNotContains(outputPath + "build.gradle.kts", "testRuntime.set(JUNIT_5");
         assertFileNotContains(outputPath + "pom.xml", "<artifactId>micronaut-test-junit");
-        assertFileContains(outputPath + "build.gradle", "testRuntime(\"spock");
+        assertFileContains(outputPath + "build.gradle.kts", "testRuntime.set(SPOCK");
         assertFileContains(outputPath + "pom.xml", "<artifactId>micronaut-test-spock");
         assertFileExists(outputPath + "src/test/groovy");
         assertFileExists(outputPath + "src/test/groovy/org/openapitools/api/PetApiSpec.groovy");
@@ -284,7 +284,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
         String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
 
         // Micronaut declarative http client should not specify a Client id
-        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client-base-path}\")");
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client-base-path:/}\")");
     }
 
     @Test
@@ -294,7 +294,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
         String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
 
         // Micronaut declarative http client should use the provided Client id
-        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client( id = \"unit-test\", path = \"${openapi-micronaut-client-base-path}\")");
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client( id = \"unit-test\", path = \"${openapi-micronaut-client-base-path:/}\")");
     }
 
     @Test
@@ -303,7 +303,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
         String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
 
         // Micronaut declarative http client should use the default path separator
-        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client-base-path}\")");
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client-base-path:/}\")");
     }
 
     @Test
@@ -313,7 +313,7 @@ public class JavaMicronautClientCodegenTest extends AbstractMicronautCodegenTest
         String outputPath = generateFiles(codegen, PETSTORE_PATH, CodegenConstants.APIS);
 
         // Micronaut declarative http client should use the provided path separator
-        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client.base-path}\")");
+        assertFileContains(outputPath + "/src/main/java/org/openapitools/api/PetApi.java", "@Client(\"${openapi-micronaut-client.base-path:/}\")");
     }
 
     /**

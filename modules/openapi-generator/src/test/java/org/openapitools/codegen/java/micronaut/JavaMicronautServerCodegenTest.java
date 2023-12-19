@@ -113,7 +113,7 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
 
         // Files are not generated
         assertFileExists(outputPath + "/pom.xml");
-        assertFileNotExists(outputPath + "/build.gradle");
+        assertFileNotExists(outputPath + "/build.gradle.kts");
     }
 
     @Test
@@ -125,7 +125,7 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
                 CodegenConstants.SUPPORTING_FILES);
 
         // Files are not generated
-        assertFileExists(outputPath + "/build.gradle");
+        assertFileExists(outputPath + "/build.gradle.kts");
         assertFileNotExists(outputPath + "/pom.xml");
     }
 
@@ -141,9 +141,9 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
                 CodegenConstants.API_TESTS, CodegenConstants.APIS, CodegenConstants.MODELS);
 
         // Files are not generated
-        assertFileContains(outputPath + "build.gradle", "testRuntime(\"junit");
+        assertFileContains(outputPath + "build.gradle.kts", "testRuntime.set(JUNIT_5");
         assertFileContains(outputPath + "pom.xml", "<artifactId>micronaut-test-junit");
-        assertFileNotContains(outputPath + "build.gradle", "testRuntime(\"spock");
+        assertFileNotContains(outputPath + "build.gradle.kts", "testRuntime.set(SPOCK");
         assertFileNotContains(outputPath + "pom.xml", "<artifactId>micronaut-test-spock");
         assertFileExists(outputPath + "src/test/java/");
         assertFileExists(outputPath + "src/test/java/org/openapitools/controller/PetControllerTest.java");
@@ -162,9 +162,9 @@ public class JavaMicronautServerCodegenTest extends AbstractMicronautCodegenTest
                 CodegenConstants.API_TESTS, CodegenConstants.APIS, CodegenConstants.MODELS);
 
         // Files are not generated
-        assertFileNotContains(outputPath + "build.gradle", "testRuntime(\"junit");
+        assertFileNotContains(outputPath + "build.gradle.kts", "testRuntime.set(JUNIT_5");
         assertFileNotContains(outputPath + "pom.xml", "<artifactId>micronaut-test-junit");
-        assertFileContains(outputPath + "build.gradle", "testRuntime(\"spock");
+        assertFileContains(outputPath + "build.gradle.kts", "testRuntime.set(SPOCK");
         assertFileContains(outputPath + "pom.xml", "<artifactId>micronaut-test-spock");
         assertFileExists(outputPath + "src/test/groovy");
         assertFileExists(outputPath + "src/test/groovy/org/openapitools/controller/PetControllerSpec.groovy");
