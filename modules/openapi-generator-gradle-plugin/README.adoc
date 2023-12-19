@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "6.6.0"
+  id "com.equisoft.openapi.generator" version "6.6.0"
 }
 ----
 
@@ -117,7 +117,7 @@ buildscript {
   }
 }
 
-apply plugin: 'org.openapi.generator'
+apply plugin: 'com.equisoft.openapi.generator'
 ----
 //# /RELEASE_VERSION
 
@@ -772,7 +772,7 @@ configurations {
     compile.exclude module: 'guava-jdk5'
 }
 // …
-apply plugin: 'org.openapi.generator'
+apply plugin: 'com.equisoft.openapi.generator'
 ```
 //# /RELEASE_VERSION
 
