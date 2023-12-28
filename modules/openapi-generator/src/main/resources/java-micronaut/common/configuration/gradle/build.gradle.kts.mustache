@@ -106,7 +106,7 @@ graalvmNative.toolchainDetection = false
 tasks {
     wrapper {
         distributionType = Wrapper.DistributionType.ALL
-        gradleVersion = "8.5"
+        gradleVersion = "{{gradleVersion}}"
     }
 }
 
@@ -122,7 +122,7 @@ configure<PublishingExtension> {
                     ?: System.getenv("GPR_USER")
                     ?: System.getenv("GHCR_USER")
                 password = project.findProperty("gpr.key")?.toString()
-                    ?: System.getenv("GPR_TOKEN")
+                    ?: System.getenv("GPR_KEY")
                     ?: System.getenv("GHCR_TOKEN")
             }
         }
