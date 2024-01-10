@@ -41,6 +41,7 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
     public static final String OPT_IS_MICRONAUT4_OR_GREATER = "isMicronaut4OrGreater";
     public static final String OPT_MICRONAUT_VALIDATION_GROUP_ID = "micronautValidationGroupId";
     public static final String OPT_MICRONAUT_PLUGIN_VERSION = "micronautPluginVersion";
+    public static final String OPT_GRADLE_VERSION = "gradleVersion";
     public static final String OPT_USE_AUTH = "useAuth";
     public static final String OPT_VISITABLE = "visitable";
     public static final String OPT_DATE_LIBRARY_JAVA8 = "java8";
@@ -426,6 +427,8 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             }
             additionalProperties.put(OPT_MICRONAUT_PLUGIN_VERSION, micronautPluginVersion);
         }
+
+        additionalProperties.putIfAbsent(OPT_GRADLE_VERSION, "8.5");
     }
 
     @Override
