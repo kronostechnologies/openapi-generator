@@ -5,7 +5,7 @@
         <groupId>com.equisoft.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.7.0-equisoft1-SNAPSHOT</version>
+        <version>7.7.0-equisoft2-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
