@@ -3,13 +3,13 @@ version '{{artifactVersion}}'
 {{^omitGradleWrapper}}
 
 wrapper {
-    gradleVersion = '8.7'
+    gradleVersion = '{{gradleVersion}}'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 {{/omitGradleWrapper}}
 
 buildscript {
-    ext.kotlin_version = '1.9.23'
+    ext.kotlin_version = '1.9.25'
     {{#jvm-ktor}}
     ext.ktor_version = '2.3.9'
     {{/jvm-ktor}}
@@ -60,6 +60,12 @@ apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'com.diffplug.spotless'
 {{^useSettingsGradle}}
+
+files(
+    "local.build.gradle",
+    "local.build.gradle.kts",
+).filter({ it.exists() } as Spec)
+    .forEach({ apply from: it })
 
 repositories {
     maven { url "https://repo1.maven.org/maven2" }
@@ -217,3 +223,10 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
     }
 }
 {{/kotlinx_serialization}}
+{{#moshi}}
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+}
+{{/moshi}}

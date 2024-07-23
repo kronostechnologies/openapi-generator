@@ -110,7 +110,7 @@ class GenerateTaskConfigurationCacheTest : TestBase() {
         val buildContents = """
             plugins {
               id 'base'
-              id 'org.openapi.generator'
+              id 'com.equisoft.openapi.generator'
             }
             openApiGenerate {
                 $extensionContents

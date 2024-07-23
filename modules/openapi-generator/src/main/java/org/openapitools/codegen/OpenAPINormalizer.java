@@ -976,6 +976,9 @@ public class OpenAPINormalizer {
                     }
                     return (Schema) oneOfSchemas.get(0);
                 }
+            } else if(Boolean.TRUE.equals(schema.getNullable()) && oneOfSchemas.size() == 1) {
+                ((Schema) oneOfSchemas.get(0)).setNullable(true);
+                return (Schema) oneOfSchemas.get(0);
             }
         }
 

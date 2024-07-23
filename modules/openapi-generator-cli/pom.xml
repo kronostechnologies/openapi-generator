@@ -1,10 +1,10 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
-        <groupId>org.openapitools</groupId>
+        <groupId>com.equisoft.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>7.7.0</version>
+        <version>7.7.0-equisoft1-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../../pom.xml</relativePath>
     </parent>
@@ -105,7 +105,7 @@
     </profiles>
     <dependencies>
         <dependency>
-            <groupId>org.openapitools</groupId>
+            <groupId>com.equisoft.openapitools</groupId>
             <artifactId>openapi-generator</artifactId>
             <version>${project.version}</version>
             <exclusions>
