@@ -41,7 +41,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -367,16 +366,17 @@ class FormApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'integer_form' => $integer_form,
-            'boolean_form' => $boolean_form,
-            'string_form' => $string_form,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($integer_form !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('integer_form', $integer_form));
+        }
+        // form params
+        if ($boolean_form !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('boolean_form', $boolean_form));
+        }
+        // form params
+        if ($string_form !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('string_form', $string_form));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['text/plain', ],
@@ -650,14 +650,9 @@ class FormApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'marker' => $marker,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($marker !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('marker', $marker));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['text/plain', ],
@@ -980,19 +975,29 @@ class FormApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'form1' => $form1,
-            'form2' => $form2,
-            'form3' => $form3,
-            'form4' => $form4,
-            'id' => $id,
-            'name' => $name,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($form1 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form1', $form1));
+        }
+        // form params
+        if ($form2 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form2', $form2));
+        }
+        // form params
+        if ($form3 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form3', $form3));
+        }
+        // form params
+        if ($form4 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form4', $form4));
+        }
+        // form params
+        if ($id !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('id', $id));
+        }
+        // form params
+        if ($name !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['text/plain', ],

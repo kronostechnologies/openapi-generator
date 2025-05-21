@@ -41,7 +41,6 @@ use Psr\Http\Message\ResponseInterface;
 use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 
 /**
@@ -900,14 +899,19 @@ class BodyApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'files' => $files,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($files !== null) {
+            $multipart = true;
+            $formParams['files'] = [];
+            $paramFiles = is_array($files) ? $files : [$files];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['files'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
+                    ? $paramFile
+                    : \GuzzleHttp\Psr7\Utils::tryFopen(
+                        ObjectSerializer::toFormValue('files', $paramFile)['files'],
+                        'rb'
+                    );
+            }
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['text/plain', ],
@@ -1175,14 +1179,19 @@ class BodyApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'my_file' => $my_file,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($my_file !== null) {
+            $multipart = true;
+            $formParams['my-file'] = [];
+            $paramFiles = is_array($my_file) ? $my_file : [$my_file];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['my-file'][] = $paramFile instanceof \Psr\Http\Message\StreamInterface
+                    ? $paramFile
+                    : \GuzzleHttp\Psr7\Utils::tryFopen(
+                        ObjectSerializer::toFormValue('my-file', $paramFile)['my-file'],
+                        'rb'
+                    );
+            }
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['text/plain', ],

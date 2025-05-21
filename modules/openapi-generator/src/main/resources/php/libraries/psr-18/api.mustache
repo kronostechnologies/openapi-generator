@@ -34,7 +34,6 @@ use {{invokerPackage}}\ApiException;
 use {{invokerPackage}}\Configuration;
 use {{invokerPackage}}\DebugPlugin;
 use {{invokerPackage}}\HeaderSelector;
-use {{invokerPackage}}\FormDataProcessor;
 use {{invokerPackage}}\ObjectSerializer;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -606,19 +605,23 @@ use function sprintf;
         {{/pathParams}}
 
         {{#formParams}}
-        {{#-first}}
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-        {{/-first}}
-            '{{paramName}}' => ${{paramName}},
-        {{#-last}}
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
-        {{/-last}}
+        if (${{paramName}} !== null) {
+            {{#isFile}}
+            $multipart = true;
+            $formParams['{{baseName}}'] = [];
+            $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('{{baseName}}', $paramFile)['{{baseName}}'],
+                    'rb'
+                );
+            }
+            {{/isFile}}
+            {{^isFile}}
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('{{baseName}}', ${{paramName}}));
+            {{/isFile}}
+        }
         {{/formParams}}
 
         $headers = $this->headerSelector->selectHeaders(
