@@ -1,5 +1,5 @@
 {{#hasImports}}
-{{#imports}}
+{{#oneOf}}
 import type { {{{.}}} } from './{{.}}{{importFileExtension}}';
 import {
     instanceOf{{{.}}},
@@ -7,7 +7,7 @@ import {
     {{{.}}}FromJSONTyped,
     {{{.}}}ToJSON,
 } from './{{.}}{{importFileExtension}}';
-{{/imports}}
+{{/oneOf}}
 
 {{/hasImports}}
 {{>modelOneOfInterfaces}}
@@ -31,30 +31,11 @@ export function {{classname}}FromJSONTyped(json: any, ignoreDiscriminator: boole
     }
 {{/discriminator}}
 {{^discriminator}}
-    {{#oneOfModels}}
-    {{#-first}}
-    if (typeof json !== 'object') {
-        return json;
-    }
-    {{/-first}}
+    {{#oneOf}}
     if (instanceOf{{{.}}}(json)) {
         return {{{.}}}FromJSONTyped(json, true);
     }
-    {{/oneOfModels}}
-    {{#oneOfArrays}}
-    {{#-first}}
-    if (Array.isArray(json)) {
-        if (json.every(item => typeof item === 'object')) {
-    {{/-first}}
-            if (json.every(item => instanceOf{{{.}}}(item))) {
-                return json.map(value => {{{.}}}FromJSONTyped(value, true));
-            }
-    {{#-last}}
-        }
-        return json;
-    }
-    {{/-last}}
-    {{/oneOfArrays}}
+    {{/oneOf}}
 
     return {} as any;
 {{/discriminator}}
@@ -78,31 +59,13 @@ export function {{classname}}ToJSONTyped(value?: {{classname}} | null, ignoreDis
             return json;
     }
 {{/discriminator}}
+
 {{^discriminator}}
-    {{#oneOfModels}}
-    {{#-first}}
-    if (typeof value !== 'object') {
-        return value;
-    }
-    {{/-first}}
+    {{#oneOf}}
     if (instanceOf{{{.}}}(value)) {
         return {{{.}}}ToJSON(value as {{{.}}});
     }
-    {{/oneOfModels}}
-    {{#oneOfArrays}}
-    {{#-first}}
-    if (Array.isArray(value)) {
-        if (value.every(item => typeof item === 'object')) {
-    {{/-first}}
-            if (value.every(item => instanceOf{{{.}}}(item))) {
-                return value.map(value => {{{.}}}ToJSON(value as {{{.}}}));
-            }
-    {{#-last}}
-        }
-        return value;
-    }
-    {{/-last}}
-    {{/oneOfArrays}}
+    {{/oneOf}}
 
     return {};
 {{/discriminator}}
