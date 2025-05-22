@@ -657,14 +657,14 @@ use {{invokerPackage}}\ObjectSerializer;
                     $formParams['{{baseName}}'][] = $paramFile;
                 } else {
                     $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\Utils::tryFopen(
-                        ObjectSerializer::toFormValue('{{baseName}}', $paramFile)['{{baseName}}'],
+                        ObjectSerializer::toFormValue($paramFile),
                         'rb'
                     );
                 }
             }
             {{/isFile}}
             {{^isFile}}
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('{{baseName}}', ${{paramName}}));
+            $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
             {{/isFile}}
         }
         {{/formParams}}

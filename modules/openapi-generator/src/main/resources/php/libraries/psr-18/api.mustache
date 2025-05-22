@@ -613,13 +613,13 @@ use function sprintf;
             $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
             foreach ($paramFiles as $paramFile) {
                 $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
-                    ObjectSerializer::toFormValue('{{baseName}}', $paramFile)['{{baseName}}'],
+                    ObjectSerializer::toFormValue($paramFile),
                     'rb'
                 );
             }
             {{/isFile}}
             {{^isFile}}
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('{{baseName}}', ${{paramName}}));
+            $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
             {{/isFile}}
         }
         {{/formParams}}
