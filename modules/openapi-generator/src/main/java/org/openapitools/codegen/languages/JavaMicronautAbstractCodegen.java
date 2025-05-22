@@ -431,12 +431,12 @@ public abstract class JavaMicronautAbstractCodegen extends AbstractJavaCodegen i
             micronautPluginVersion = (String) additionalProperties.get(OPT_MICRONAUT_PLUGIN_VERSION);
         } else {
             if(isMicronaut4OrGreater) {
-                micronautPluginVersion = "4.2.1";
+                micronautPluginVersion = "4.4.2";
             }
             additionalProperties.put(OPT_MICRONAUT_PLUGIN_VERSION, micronautPluginVersion);
         }
 
-        additionalProperties.putIfAbsent(OPT_GRADLE_VERSION, "8.5");
+        additionalProperties.putIfAbsent(OPT_GRADLE_VERSION, "8.9");
     }
 
     @Override

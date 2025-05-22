@@ -97,7 +97,7 @@ task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valid
 [source,group]
 ----
 plugins {
-  id "com.equisoft.openapi.generator" version "7.12.0"
+  id "com.equisoft.openapi.generator" version "7.13.0-equisoft1"
 }
 ----
 
@@ -113,7 +113,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "com.equisoft.openapitools:openapi-generator-gradle-plugin:7.10.0"
+    classpath "com.equisoft.openapitools:openapi-generator-gradle-plugin:7.13.0-equisoft1"
   }
 }
 
@@ -759,7 +759,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('com.equisoft.openapitools:openapi-generator-gradle-plugin:1.10.0') {
+        classpath('com.equisoft.openapitools:openapi-generator-gradle-plugin:7.13.0-equisoft1') {
             exclude group: 'com.google.guava'
         }
     }
