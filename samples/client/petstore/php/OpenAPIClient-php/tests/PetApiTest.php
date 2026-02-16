@@ -41,6 +41,13 @@ class PetApiTest extends TestCase
 
         $newPet->setTags(array($tag));
         $newPet->setCategory($category);
+
+        $config = new Configuration();
+        $petApi = new Api\PetApi(null, $config);
+
+        // add a new pet (model)
+        list(, $status) = $petApi->addPetWithHttpInfo($newPet);
+        Assert::assertEquals(200, $status);
     }
 
     public function setUp(): void
@@ -215,7 +222,7 @@ class PetApiTest extends TestCase
         $category = new Model\Category;
         $category->setId($new_pet_id); // use the same id as pet
         $category->setName("test php category");
-  
+
         $new_pet->setTags(array($tag));
         $new_pet->setCategory($category);
 
@@ -255,7 +262,7 @@ class PetApiTest extends TestCase
         $config->setHost('http://petstore.swagger.io/v2');
         $api_client = new APIClient($config);
         $pet_api = new Api\PetApi($api_client);
-        // test getPetByIdWithByteArray 
+        // test getPetByIdWithByteArray
         $pet_id = 10005;
         $bytes = $pet_api->petPetIdtestingByteArraytrueGet($pet_id);
         $json = json_decode($bytes, true);
@@ -363,84 +370,6 @@ class PetApiTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Missing the required parameter $status when calling findPetsByStatus');
         $this->api->findPetsByStatus([]);
-    }
-
-    public function testObjectInFormData()
-    {
-        $category = (new Model\Category())
-            ->setId(12345)
-            ->setName("Category_Name");
-
-        $tags_1 = (new Model\Tag())
-            ->setId(12345)
-            ->setName("tag_1");
-
-        $tags_2 = (new Model\Tag())
-            ->setId(98765)
-            ->setName("tag_2");
-
-        /** @var Model\Tag[] $tags */
-        $tags = [
-            $tags_1,
-            $tags_2,
-        ];
-
-        $pet_id = 56;
-        $name = "My pet name";
-        $photo_urls = [
-            "https://example.com/picture_1.jpg",
-            "https://example.com/picture_2.jpg",
-        ];
-        $id = 12345;
-        $status = Model\Pet::STATUS_AVAILABLE;
-        $file = new \SplFileObject(__DIR__ . '/../.openapi-generator/VERSION');
-        $multiple_files = [
-            $file,
-            $file,
-        ];
-
-        $request = (new Api\PetApi())->uploadImageFullFormDataRequest(
-            $pet_id,
-            $name,
-            $photo_urls,
-            $id,
-            $category,
-            $tags,
-            $status,
-            $file,
-            $multiple_files,
-        );
-
-        $contents = $request->getBody()->getContents();
-
-        $this->assertBodyContents('name', $name, $contents);
-        $this->assertBodyContents('photoUrls[0]', $photo_urls[0], $contents);
-        $this->assertBodyContents('photoUrls[1]', $photo_urls[1], $contents);
-        $this->assertBodyContents('category[id]', $category->getId(), $contents);
-        $this->assertBodyContents('category[name]', $category->getName(), $contents);
-        $this->assertBodyContents('tags[0][id]', $tags[0]->getId(), $contents);
-        $this->assertBodyContents('tags[0][name]', $tags[0]->getName(), $contents);
-        $this->assertBodyContents('tags[1][id]', $tags[1]->getId(), $contents);
-        $this->assertBodyContents('tags[1][name]', $tags[1]->getName(), $contents);
-        $this->assertBodyContents('status', $status, $contents);
-    }
-
-    private function assertBodyContents(
-        string $name,
-        mixed $value,
-        string $contents,
-    ) {
-        $length = strlen((string) ($value));
-        $contents = implode("\n", array_map('trim', explode("\n", $contents)));
-
-        $expected = <<<END
-            Content-Disposition: form-data; name="{$name}"
-            Content-Length: {$length}
-            
-            {$value}
-            END;
-
-        $this->assertStringContainsString($expected, $contents);
     }
 
 //    Disabled as currently we don't have any endpoint that would return file

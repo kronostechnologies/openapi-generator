@@ -367,15 +367,15 @@ class FormApi
 
         // form params
         if ($integer_form !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('integer_form', $integer_form));
+            $formParams['integer_form'] = ObjectSerializer::toFormValue($integer_form);
         }
         // form params
         if ($boolean_form !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('boolean_form', $boolean_form));
+            $formParams['boolean_form'] = ObjectSerializer::toFormValue($boolean_form);
         }
         // form params
         if ($string_form !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('string_form', $string_form));
+            $formParams['string_form'] = ObjectSerializer::toFormValue($string_form);
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -650,7 +650,7 @@ class FormApi
 
         // form params
         if ($marker !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('marker', $marker));
+            $formParams['marker'] = ObjectSerializer::toFormValue($marker);
         }
 
         $headers = $this->headerSelector->selectHeaders(
@@ -974,27 +974,27 @@ class FormApi
 
         // form params
         if ($form1 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form1', $form1));
+            $formParams['form1'] = ObjectSerializer::toFormValue($form1);
         }
         // form params
         if ($form2 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form2', $form2));
+            $formParams['form2'] = ObjectSerializer::toFormValue($form2);
         }
         // form params
         if ($form3 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form3', $form3));
+            $formParams['form3'] = ObjectSerializer::toFormValue($form3);
         }
         // form params
         if ($form4 !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('form4', $form4));
+            $formParams['form4'] = ObjectSerializer::toFormValue($form4);
         }
         // form params
         if ($id !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('id', $id));
+            $formParams['id'] = ObjectSerializer::toFormValue($id);
         }
         // form params
         if ($name !== null) {
-            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
+            $formParams['name'] = ObjectSerializer::toFormValue($name);
         }
 
         $headers = $this->headerSelector->selectHeaders(
