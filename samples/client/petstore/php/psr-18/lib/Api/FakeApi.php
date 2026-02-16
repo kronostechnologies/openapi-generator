@@ -43,7 +43,6 @@ use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -5381,27 +5380,69 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'integer' => $integer,
-            'int32' => $int32,
-            'int64' => $int64,
-            'number' => $number,
-            'float' => $float,
-            'double' => $double,
-            'string' => $string,
-            'pattern_without_delimiter' => $pattern_without_delimiter,
-            'byte' => $byte,
-            'binary' => $binary,
-            'date' => $date,
-            'date_time' => $date_time,
-            'password' => $password,
-            'callback' => $callback,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($integer !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('integer', $integer));
+        }
+        // form params
+        if ($int32 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int32', $int32));
+        }
+        // form params
+        if ($int64 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('int64', $int64));
+        }
+        // form params
+        if ($number !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('number', $number));
+        }
+        // form params
+        if ($float !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('float', $float));
+        }
+        // form params
+        if ($double !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('double', $double));
+        }
+        // form params
+        if ($string !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('string', $string));
+        }
+        // form params
+        if ($pattern_without_delimiter !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('pattern_without_delimiter', $pattern_without_delimiter));
+        }
+        // form params
+        if ($byte !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('byte', $byte));
+        }
+        // form params
+        if ($binary !== null) {
+            $multipart = true;
+            $formParams['binary'] = [];
+            $paramFiles = is_array($binary) ? $binary : [$binary];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['binary'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('binary', $paramFile)['binary'],
+                    'rb'
+                );
+            }
+        }
+        // form params
+        if ($date !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('date', $date));
+        }
+        // form params
+        if ($date_time !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('dateTime', $date_time));
+        }
+        // form params
+        if ($password !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('password', $password));
+        }
+        // form params
+        if ($callback !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('callback', $callback));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -5710,15 +5751,13 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'enum_form_string_array' => $enum_form_string_array,
-            'enum_form_string' => $enum_form_string,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($enum_form_string_array !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string_array', $enum_form_string_array));
+        }
+        // form params
+        if ($enum_form_string !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('enum_form_string', $enum_form_string));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -6666,15 +6705,13 @@ class FakeApi
 
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'param' => $param,
-            'param2' => $param2,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($param !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param', $param));
+        }
+        // form params
+        if ($param2 !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('param2', $param2));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],

@@ -43,7 +43,6 @@ use OpenAPI\Client\ApiException;
 use OpenAPI\Client\Configuration;
 use OpenAPI\Client\DebugPlugin;
 use OpenAPI\Client\HeaderSelector;
-use OpenAPI\Client\FormDataProcessor;
 use OpenAPI\Client\ObjectSerializer;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -248,7 +247,7 @@ class PetApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
-        
+
 
             throw $e;
         }
@@ -485,7 +484,7 @@ class PetApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
-        
+
 
             throw $e;
         }
@@ -713,7 +712,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -743,7 +742,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -973,7 +972,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1003,7 +1002,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -1234,7 +1233,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -1264,7 +1263,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -1502,7 +1501,7 @@ class PetApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
-        
+
 
             throw $e;
         }
@@ -1741,7 +1740,7 @@ class PetApi
         } catch (ApiException $e) {
             switch ($e->getCode()) {
             }
-        
+
 
             throw $e;
         }
@@ -1846,15 +1845,13 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'name' => $name,
-            'status' => $status,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($name !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
+        }
+        // form params
+        if ($status !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('status', $status));
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             [],
@@ -1982,7 +1979,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2012,7 +2009,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -2127,15 +2124,21 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'additional_metadata' => $additional_metadata,
-            'file' => $file,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($additional_metadata !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('additionalMetadata', $additional_metadata));
+        }
+        // form params
+        if ($file !== null) {
+            $multipart = true;
+            $formParams['file'] = [];
+            $paramFiles = is_array($file) ? $file : [$file];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['file'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('file', $paramFile)['file'],
+                    'rb'
+                );
+            }
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/json'],
@@ -2263,7 +2266,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2293,7 +2296,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -2414,15 +2417,21 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'additional_metadata' => $additional_metadata,
-            'required_file' => $required_file,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($additional_metadata !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('additionalMetadata', $additional_metadata));
+        }
+        // form params
+        if ($required_file !== null) {
+            $multipart = true;
+            $formParams['requiredFile'] = [];
+            $paramFiles = is_array($required_file) ? $required_file : [$required_file];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['requiredFile'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('requiredFile', $paramFile)['requiredFile'],
+                    'rb'
+                );
+            }
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/json'],
@@ -2562,7 +2571,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2592,7 +2601,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -2738,61 +2747,28 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'id' => $id,
-            'category' => $category,
-            'name' => $name,
-            'photo_urls' => $photo_urls,
-            'tags' => $tags,
-            'status' => $status,
-            'file' => $file,
-            'multiple_files' => $multiple_files,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
-
-        $headers = $this->headerSelector->selectHeaders(
-            ['application/json'],
-            'multipart/form-data',
-            $multipart
-        );
-
-        // for model (json/xml)
-        if (count($formParams) > 0) {
-            if ($multipart) {
-                $multipartContents = [];
-                foreach ($formParams as $formParamName => $formParamValue) {
-                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
-                    foreach ($formParamValueItems as $formParamValueItem) {
-                        $multipartContents[] = [
-                            'name' => $formParamName,
-                            'contents' => $formParamValueItem
-                        ];
-                    }
-                }
-                // for HTTP post (form)
-                $httpBody = new MultipartStream($multipartContents);
-
-            } elseif ($this->headerSelector->isJsonMime($headers['Content-Type'])) {
-                $httpBody = json_encode($formParams);
-
-            } else {
-                // for HTTP post (form)
-                $httpBody = ObjectSerializer::buildQuery($formParams);
-            }
+        if ($id !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('id', $id));
         }
-
-        // this endpoint requires OAuth (access token)
-        if ($this->config->getAccessToken() !== null) {
-            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        // form params
+        if ($category !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('category', $category));
         }
-
-        $defaultHeaders = [];
-        if ($this->config->getUserAgent()) {
-            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        // form params
+        if ($name !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('name', $name));
+        }
+        // form params
+        if ($photo_urls !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('photoUrls', $photo_urls));
+        }
+        // form params
+        if ($tags !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('tags', $tags));
+        }
+        // form params
+        if ($status !== null) {
+            $formParams = array_merge($formParams, ObjectSerializer::toFormValue('status', $status));
         }
 
         $headers = array_merge(
@@ -2878,7 +2854,7 @@ class PetApi
                     );
             }
 
-            
+
 
             if ($statusCode < 200 || $statusCode > 299) {
                 throw new ApiException(
@@ -2908,7 +2884,7 @@ class PetApi
                     $e->setResponseObject($data);
                     throw $e;
             }
-        
+
 
             throw $e;
         }
@@ -3020,14 +2996,17 @@ class PetApi
         }
 
         // form params
-        $formDataProcessor = new FormDataProcessor();
-
-        $formData = $formDataProcessor->prepare([
-            'pet' => $pet,
-        ]);
-
-        $formParams = $formDataProcessor->flatten($formData);
-        $multipart = $formDataProcessor->has_file;
+        if ($multiple_files !== null) {
+            $multipart = true;
+            $formParams['multiple_files'] = [];
+            $paramFiles = is_array($multiple_files) ? $multiple_files : [$multiple_files];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['multiple_files'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue('multiple_files', $paramFile)['multiple_files'],
+                    'rb'
+                );
+            }
+        }
 
         $headers = $this->headerSelector->selectHeaders(
             ['application/json'],
