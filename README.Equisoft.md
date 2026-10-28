@@ -55,3 +55,47 @@ Deploy the gradle plugin
 ```
 cd modules/openapi-generator-gradle-plugin && ./gradlew publish
 ```
+
+## Agent tooling (APM)
+
+This fork uses APM **0.35.0**, pinned in `.apm-version`, to deploy shared Equisoft AWT
+agent instructions, skills, reviewers, and Jira tooling for Copilot. The common
+`org-standards`, `apm-usage`, `code-review`, and `jira` packages are pinned together to
+agent-toolkit **v1.3.0** (`d959fbfb35ed469aa24de3fca327396b28bbdaa7`).
+Generated samples and supported output languages do not determine package selection:
+no language-specific package is installed for this generator fork.
+
+Install the pinned CLI using the [APM installation instructions](https://microsoft.github.io/apm/),
+then, from the repository root:
+
+```sh
+apm --version # Must match .apm-version
+apm install
+apm audit --ci --no-cache
+```
+
+Private repository access is required for both
+`kronostechnologies/agent-toolkit` and the organization policy in
+`kronostechnologies/.github-private`. Provide a suitably scoped `GITHUB_APM_PAT`
+through your credential manager or environment; never commit credentials.
+Jira MCP authentication is separate from GitHub authentication.
+
+Commit `apm.lock.yaml` and the files deployed under `.github/instructions/`,
+`.github/prompts/`, `.github/agents/`, `.github/mcp.json`, and `.agents/skills/`
+together. Do not edit deployed files or the lockfile manually. Local dependencies
+in `apm_modules/` and the `.apm/` cache are ignored. To update tooling, change all
+agent-toolkit dependency pins in `apm.yml` to the same reviewed release commit,
+run `apm install`, review the generated changes, and rerun the audit. Change
+shared content in agent-toolkit instead of patching its deployed copy.
+
+The APM workflow uses `equisoft-actions/setup-apm@v1` and `.apm-version`.
+Configure the repository or organization variable `APM_APP_ID` and secret
+`APM_APP_PRIVATE_KEY` for a GitHub App installed with read access to
+`agent-toolkit` and `.github-private`. The action exports its short-lived
+`GITHUB_APM_PAT`; the default workflow `GITHUB_TOKEN` cannot read these private
+dependencies. The audit must report the organization policy as loaded, not
+silently pass without it. Missing CI credentials block validation and must be
+resolved before marking the PR ready.
+
+These files are agent tooling only; the upstream README, API contracts,
+generator behavior, generated clients, and samples are unchanged.

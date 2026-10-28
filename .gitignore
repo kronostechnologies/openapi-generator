@@ -307,3 +307,7 @@ samples/client/petstore/ocaml-additional-properties/_build/
 
 # jetbrain http client
 samples/client/jetbrains/adyen/checkout71/http/client/Apis/http-client.private.env.json
+
+# Local APM dependencies and caches; deployed agent tooling is committed.
+/.apm/
+apm_modules/

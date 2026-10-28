@@ -1,2 +1,10 @@
 **/*.mustache linguist-vendored=true
 * text=auto eol=lf
+
+# Files deployed by apm install, not authored in this repository.
+/apm.lock.yaml linguist-generated=true
+/.github/instructions/** linguist-generated=true
+/.github/prompts/** linguist-generated=true
+/.github/agents/** linguist-generated=true
+/.github/mcp.json linguist-generated=true
+/.agents/skills/** linguist-generated=true
